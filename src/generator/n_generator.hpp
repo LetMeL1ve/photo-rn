@@ -1,8 +1,11 @@
 #pragma once
 #include <string>
 #include <vector>
+#include "tokenizer/tokenizer.hpp"
 
 namespace n_generator {
+
+// Vector of aviable placeholders.
 
 // Main function for generating new names for images.
 // ```pattern``` - Pattern for generating new name, example: ```{date}_{seq}```.
