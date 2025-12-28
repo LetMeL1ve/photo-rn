@@ -1,8 +1,7 @@
 #include <iostream>
 #include "generator/n_generator.hpp"
+#include "cli/cli_module.hpp"
 
-int main() {
-    std::string pattern = "{date}_{f}_{seq}.jpg";
-    std::vector<int> f;
-    n_generator::generate_name(pattern, f, pattern);
+int main(int argc, char** argv) {
+    std::cout << cli::run(argc, argv);
 }
