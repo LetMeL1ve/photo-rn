@@ -3,5 +3,5 @@
 #include "cli/cli_module.hpp"
 
 int main(int argc, char** argv) {
-    std::cout << cli::run(argc, argv);
+    cli::run(argc, argv);
 }

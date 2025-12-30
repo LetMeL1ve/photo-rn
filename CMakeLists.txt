@@ -1,14 +1,19 @@
 cmake_minimum_required(VERSION 3.10.0)
 project(photo-rn VERSION 0.1.0 LANGUAGES C CXX)
 
-# Try to find an installed CLI11 package first; otherwise fetch it as a dependency.
+# Used for CLI interface
 find_package(CLI11 REQUIRED)
+
+find_package(exiv2 REQUIRED)
 
 
 add_executable(photo-rn src/main.cpp
                         src/generator/n_generator.cpp
                         src/generator/tokenizer/tokenizer.cpp
-                        src/cli/cli_module.cpp)
+                        src/cli/cli_module.cpp
+                        src/reader/reader.cpp)
+
+target_link_libraries(photo-rn PUBLIC exiv2)
 
 option(BUILD_TESTS "Build tests" ON)
 
