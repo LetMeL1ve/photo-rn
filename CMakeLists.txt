@@ -8,9 +8,8 @@ find_package(exiv2 REQUIRED)
 
 
 add_executable(photo-rn src/main.cpp
-                        src/generator/n_generator.cpp
+                        src/generator/generator.cpp
                         src/generator/tokenizer/tokenizer.cpp
-                        src/cli/cli_module.cpp
                         src/reader/reader.cpp)
 
 target_link_libraries(photo-rn PUBLIC exiv2)
