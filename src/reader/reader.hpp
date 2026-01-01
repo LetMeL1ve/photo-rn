@@ -1,5 +1,5 @@
 #pragma once
-#include <map>
+#include "../fileinfo.hpp"
 #include <string>
 
-void get_exif_info(const std::string& path, std::map<std::string, int>);
+void get_exif_info(const std::string&, FileInfo&);

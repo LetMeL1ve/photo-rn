@@ -8,9 +8,9 @@ inline const std::array<std::string, 9> placeholders {
     "time",
     "camera",
     "lens",
-    "iso ",
+    "iso",
     "f",
     "seq",
     "orig",
-    "ext"
+    "exp"
 };
