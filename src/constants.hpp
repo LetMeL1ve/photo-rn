@@ -7,7 +7,7 @@ inline const std::array<std::string, 9> placeholders {
     "date",
     "time",
     "camera",
-    "lens",
+    "focal",
     "iso",
     "f",
     "seq",
