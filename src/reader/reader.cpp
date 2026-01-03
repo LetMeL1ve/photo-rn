@@ -21,7 +21,7 @@ void get_datetime(std::string& date, std::string& time, Exiv2::ExifData& data) {
 
     int space_idx = raw_datetime.find(' '); // Getting separator position.
 
-    if (space_idx = std::string::npos)  // Throwing an exception if data are invalid.
+    if (space_idx == std::string::npos)  // Throwing an exception if data are invalid.
         throw "Unable to read DateTimeOriginal.";
 
 
@@ -82,7 +82,7 @@ bool get_aperture(float& aperture, Exiv2::ExifData& data) {
     return true;
 }
 
-FileInfo& get_exif_info(const std::string& path) {
+FileInfo get_exif_info(const std::string& path) {
     try {
         auto image = Exiv2::ImageFactory::open(path);
         image->readMetadata();
