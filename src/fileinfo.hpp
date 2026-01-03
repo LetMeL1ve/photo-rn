@@ -6,9 +6,13 @@ class Exposure {
 private:
     unsigned int numerator;
     unsigned int denominator;
+    bool given;
 public:
     Exposure() {}
-    Exposure(unsigned int _numerator, unsigned int _denominator) : numerator(_numerator), denominator(_denominator) {}
+    Exposure(bool _given, unsigned int _numerator, unsigned int _denominator) 
+    : numerator(_numerator), denominator(_denominator), given(_given) {}
+
+    bool has_value() const { return given; }
 
     std::string as_string() const { return numerator + "/" + denominator; }
 

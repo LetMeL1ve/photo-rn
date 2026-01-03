@@ -4,9 +4,6 @@
 using reader::get_exif_info;
 
 void generate_name(const std::string& pattern, std::string& result, const std::string path) {
-    // 1. Tokenize pattern.
-    // 2. Get EXIF data.
-    // 3. Complete name.
 
     // Getting file info.
     FileInfo file_info = get_exif_info(path);
@@ -34,7 +31,7 @@ void generate_name(const std::string& pattern, std::string& result, const std::s
         else if (val == "exp")
             result += file_info.get_exposure().as_string();
         else if (val == "f")
-            result += file_info.get_aperture();
+            result += ("F/" + std::to_string(file_info.get_aperture()));
 
     }
 }

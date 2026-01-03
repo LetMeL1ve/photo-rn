@@ -8,11 +8,11 @@ std::string get_value_safe(Exiv2::ExifData& data, const std::string& key) {
     try {
         auto it = data.findKey(Exiv2::ExifKey(key));
         if (it == data.end() || it->toString().empty())
-            return "N/A";  
+            return "";  
         else
             return it->toString();
     } catch (Exiv2::Error& e) {
-        return "N/A";
+        return "";
     }
 }
 
@@ -22,9 +22,13 @@ void get_datetime(std::string& date, std::string& time, Exiv2::ExifData& data) {
     int space_idx = raw_datetime.find(' '); // Getting separator position.
 
     if (space_idx == std::string::npos) { // Throwing an exception if data are invalid.
-        date = "";
-        time = "";
-        return;
+        raw_datetime = get_value_safe(data, "Exif.Photo.DateTimeOriginal");
+        space_idx = raw_datetime.find(' ');
+        if (space_idx == std::string::npos) {
+            date = "";
+            time = "";
+            return;
+        }
     }
 
     // Setting values.
@@ -47,15 +51,15 @@ void get_exposure(Exposure& exposure, Exiv2::ExifData& data) {
         unsigned int denominator = rational.second / gcd;
 
         // Setting values
-        exposure = Exposure(numerator, denominator);
+        exposure = Exposure(true, numerator, denominator);
     } catch (Exiv2::Error& e) {
-        exposure = Exposure(0, 0);
+        exposure = Exposure(false, 1, 1);
     }
 }
 
 void get_camera(std::string& camera, Exiv2::ExifData& data) {
     std::string make = get_value_safe(data, "Exif.Image.Make"), model = get_value_safe(data, "Exif.Image.Model");
-    camera = (make != "N/A" ? make : "") + ( model != "N/A" ? model : ""); 
+    camera = make + (!make.empty() && !model.empty() ? " " : "") + model; 
 }
 
 bool get_iso(unsigned int& iso, Exiv2::ExifData& data) {
