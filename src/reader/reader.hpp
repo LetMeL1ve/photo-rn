@@ -2,4 +2,8 @@
 #include "../fileinfo.hpp"
 #include <string>
 
-void get_exif_info(const std::string&, FileInfo&);
+namespace reader {
+// Main method of reading EXIF values.
+// ```path``` => path to the image.
+FileInfo& get_exif_info(const std::string&);
+}

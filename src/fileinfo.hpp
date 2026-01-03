@@ -7,6 +7,7 @@ private:
     unsigned int numerator;
     unsigned int denominator;
 public:
+    Exposure() {}
     Exposure(unsigned int _numerator, unsigned int _denominator) : numerator(_numerator), denominator(_denominator) {}
 
     std::string as_string() const { return numerator + "/" + denominator; }
