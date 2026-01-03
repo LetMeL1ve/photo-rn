@@ -21,9 +21,11 @@ void get_datetime(std::string& date, std::string& time, Exiv2::ExifData& data) {
 
     int space_idx = raw_datetime.find(' '); // Getting separator position.
 
-    if (space_idx == std::string::npos)  // Throwing an exception if data are invalid.
-        throw "Unable to read DateTimeOriginal.";
-
+    if (space_idx == std::string::npos) { // Throwing an exception if data are invalid.
+        date = "";
+        time = "";
+        return;
+    }
 
     // Setting values.
     date = raw_datetime.substr(0, space_idx);
@@ -31,20 +33,24 @@ void get_datetime(std::string& date, std::string& time, Exiv2::ExifData& data) {
 }
 
 void get_exposure(Exposure& exposure, Exiv2::ExifData& data) {
-    Exiv2::Exifdatum raw_exposure = data["Exif.Photo.ExposureTime"]; // Reading values.
+    try {
+        Exiv2::Exifdatum raw_exposure = data["Exif.Photo.ExposureTime"]; // Reading values.
 
-    // Converting into rational.
-    Exiv2::Rational rational = raw_exposure.toRational();
+        // Converting into rational.
+        Exiv2::Rational rational = raw_exposure.toRational();
 
-    // Getting GCD
-    int gcd = std::gcd(rational.first, rational.second);
+        // Getting GCD
+        int gcd = std::gcd(rational.first, rational.second);
 
-    // 
-    unsigned int numerator = rational.first / gcd;
-    unsigned int denominator = rational.first / gcd;
+        // 
+        unsigned int numerator = rational.first / gcd;
+        unsigned int denominator = rational.second / gcd;
 
-    // Setting values
-    exposure = Exposure(numerator, denominator);
+        // Setting values
+        exposure = Exposure(numerator, denominator);
+    } catch (Exiv2::Error& e) {
+        exposure = Exposure(0, 0);
+    }
 }
 
 void get_camera(std::string& camera, Exiv2::ExifData& data) {
@@ -64,7 +70,7 @@ bool get_iso(unsigned int& iso, Exiv2::ExifData& data) {
 
 bool get_focous_length(unsigned int& focus_length, Exiv2::ExifData& data) {
     try {
-        auto raw_focus_length = data["Exif.Photo.ISOSpeedRatings"];
+        auto raw_focus_length = data["Exif.Photo.FocalLength"];
         focus_length = raw_focus_length.toInt64();  
     } catch (Exiv2::Error& e) {
         return false;
