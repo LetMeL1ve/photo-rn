@@ -22,7 +22,7 @@ void get_datetime(std::string& date, std::string& time, Exiv2::ExifData& data) {
     int space_idx = raw_datetime.find(' '); // Getting separator position.
 
     if (space_idx == std::string::npos) { // Throwing an exception if data are invalid.
-        raw_datetime = get_value_safe(data, "Exif.Photo.DateTimeOriginal");
+        raw_datetime = get_value_safe(data, "Exif.Image.DateTime");
         space_idx = raw_datetime.find(' ');
         if (space_idx == std::string::npos) {
             date = "";
