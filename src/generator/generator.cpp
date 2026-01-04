@@ -3,7 +3,7 @@
 
 using reader::get_exif_info;
 
-void append_by_placeholder(const std::string& ph, FileInfo& file_info, std::string& result, bool brute) {
+void append_by_placeholder(const std::string& ph, FileInfo& file_info, std::string& result, bool brute, int sequence) {
     const std::string unknown = "unknown";
     
     if (ph == "date") {
@@ -62,6 +62,11 @@ void append_by_placeholder(const std::string& ph, FileInfo& file_info, std::stri
             throw "Missing argument: focal length. (-brute)";
         else    
             result += unknown;
+    } else if (ph == "seq") {
+        std::string value = std::to_string(sequence);
+        while (value.size() < 4)
+            value.insert(value.begin(), '0');  // Formating sequence.
+        result += value;
     } else {
         if (brute)
             throw "Invalid placeholder: " + ph + ". (-brute)";
@@ -70,7 +75,7 @@ void append_by_placeholder(const std::string& ph, FileInfo& file_info, std::stri
     }
 }
 
-void generate_name(const std::string& pattern, std::string& result, const std::string path, bool brute) {
+void generate_name(const std::string& pattern, std::string& result, const std::string path, bool brute, int sequence) {
 
     // Getting file info.
     FileInfo file_info = get_exif_info(path);
@@ -84,6 +89,6 @@ void generate_name(const std::string& pattern, std::string& result, const std::s
             result += tokens[i].get_text();
             continue;
         }
-        append_by_placeholder(tokens[i].get_text(), file_info, result, brute);
+        append_by_placeholder(tokens[i].get_text(), file_info, result, brute, sequence);
     }
 }
